@@ -1,0 +1,27 @@
+{
+  "name": "grsa",
+  "version": "0.0.1",
+  "description": "Graph Relacional Speed Analysis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katreque/grsa.git"
+  },
+  "author": "Katreque",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/katreque/grsa/issues"
+  },
+  "homepage": "https://github.com/katreque/grsa#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "neo4j-driver": "^1.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}
