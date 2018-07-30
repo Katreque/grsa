@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/katreque/grsa#readme",
   "dependencies": {
+    "async": "^2.6.1",
     "express": "^4.16.3",
-    "neo4j-driver": "^1.6.2"
+    "neo4j-driver": "^1.6.2",
+    "tedious": "^2.6.3"
   },
   "devDependencies": {
     "nodemon": "^1.18.3"

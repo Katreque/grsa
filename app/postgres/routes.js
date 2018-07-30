@@ -1,5 +1,9 @@
 var rotas = function(app) {
-  app.get('/pg-admin', (req, res) => {
+  app.get('/pg-criar', (req, res) => {
+    console.log('PG');
+  })
+
+  app.get('/pg-listar', (req, res) => {
     console.log('PG');
   })
 }
