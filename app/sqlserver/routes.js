@@ -8,18 +8,16 @@ var _dbConnect = function(connection, Request, create) {
 
         if(!!create) {
           request = new Request(
-            'INSERT INTO TestSchema.Employees (Name, Location) OUTPUT INSERTED.Id VALUES (@Name, @Location);',
+            'INSERT INTO Pessoa (Nome) VALUES (@Nome);',
             function(err, rowCount, rows) {
               if (err) {
                 reject(err);
               } else {
-                console.log(rowCount + ' row(s) inserted');
-                resolve(null, 'Nikita', 'United States');
+                resolve();
               }
             });
 
-            request.addParameter('Name', TYPES.NVarChar, name);
-            request.addParameter('Location', TYPES.NVarChar, location);
+            request.addParameter('Nome', TYPES.NVarChar, "Katreque");
             connection.execSql(request);
           } else {
 
@@ -34,24 +32,24 @@ var rotas = function(app, connection, Request) {
   app.get('/ssms-criar', (req, res) => {
     _dbConnect(connection, Request, true)
       .then(() => {
-
+        app.send('Linha adicionada!');
       })
-      .catch(() => {
-
+      .catch((err) => {
+        app.send(err);
       })
   })
 
   app.get('/ssms-listar', (req, res) => {
     _dbConnect(connection, Request, false)
       .then(() => {
-
+        return;
       })
       .catch(() => {
-
+        return;
       })
   })
 }
 
-module.exports = function(app, connection) {
-  setRotas: rotas(app, connection)
+module.exports = function(app, connection, Request) {
+  setRotas: rotas(app, connection, Request)
 }
