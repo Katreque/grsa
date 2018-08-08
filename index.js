@@ -8,23 +8,24 @@ const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("katreque"
 
 //SQL Server requires
 const Connection = require('tedious').Connection;
-const Request = require('tedious').Request;
-const TYPES = require('tedious').TYPES;
 var config = {
-  userName: 'sa', // update me
-  password: 'your_password', // update me
+  userName: 'Katreque',
+  password: '123456',
   server: 'localhost',
   options: {
-      database: 'SampleDB'
+      database: 'grsa',
+      encrypt: true
   }
 }
 const connection = new Connection(config);
-
-//Postgres requires
+connection.on('connect', function(err) {
+  if (!!err) {
+    console.log(err);
+  }
+});
 
 require('./app/neo4j/routes.js')(app, driver);
-require('./app/sqlserver/routes.js')(app, connection, Request);
-require('./app/postgres/routes.js')(app);
+require('./app/sqlserver/routes.js')(app, connection);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

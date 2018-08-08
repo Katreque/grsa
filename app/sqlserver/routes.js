@@ -1,53 +1,32 @@
-var _dbConnect = function(connection, Request, create) {
-  new Promise(resolve, reject) {
-    connection.on('connect', function(err) {
-      if (!!err) {
-        console.log(err);
-      } else {
-        console.log('Sql Server ON!');
+var Request = require('tedious').Request;
+var TYPES = require('tedious').TYPES;
 
-        if(!!create) {
-          request = new Request(
-            'INSERT INTO TestSchema.Employees (Name, Location) OUTPUT INSERTED.Id VALUES (@Name, @Location);',
-            function(err, rowCount, rows) {
-              if (err) {
-                reject(err);
-              } else {
-                console.log(rowCount + ' row(s) inserted');
-                resolve(null, 'Nikita', 'United States');
-              }
-            });
-
-            request.addParameter('Name', TYPES.NVarChar, name);
-            request.addParameter('Location', TYPES.NVarChar, location);
-            connection.execSql(request);
+var _dbConnect = function(connection, create) {
+  return new Promise((resolve, reject) => {
+    if(!!create) {
+      request = new Request(
+        'INSERT INTO Nome (Nome) VALUES (@Nome);',
+        function(err, rowCount, rows) {
+          if (err) {
+            return reject(err);
           } else {
-
-            //Fonte do Listar
+            return resolve();
           }
-        }
-      });
-  }
+        });
+      }
+        request.addParameter('Nome', TYPES.NVarChar, 'Renan Verissimo');
+        connection.execSql(request);
+  })
 }
 
-var rotas = function(app, connection, Request) {
+var rotas = function(app, connection) {
   app.get('/ssms-criar', (req, res) => {
-    _dbConnect(connection, Request, true)
+    _dbConnect(connection, true)
       .then(() => {
-
+        res.send('Funfou!')
       })
-      .catch(() => {
-
-      })
-  })
-
-  app.get('/ssms-listar', (req, res) => {
-    _dbConnect(connection, Request, false)
-      .then(() => {
-
-      })
-      .catch(() => {
-
+      .catch((err) => {
+        res.send(err);
       })
   })
 }
