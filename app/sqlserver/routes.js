@@ -31,6 +31,6 @@ var rotas = function(app, connection) {
   })
 }
 
-module.exports = function(app, connection) {
-  setRotas: rotas(app, connection)
+module.exports = function(app, connection, Request) {
+  setRotas: rotas(app, connection, Request)
 }
