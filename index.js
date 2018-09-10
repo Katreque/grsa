@@ -13,7 +13,7 @@ var config = {
   password: '123456',
   server: 'localhost',
   options: {
-      database: 'grsa',
+      database: 'vendas',
       encrypt: true
   }
 }
@@ -24,11 +24,17 @@ connection.on('connect', function(err) {
   }
 });
 
-require('./app/neo4j/routes.js')(app, driver);
-require('./app/sqlserver/routes.js')(app, connection);
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+require('./app/neo4j/routes.js')(app, driver);
+require('./app/sqlserver/routes.js')(app, connection);
 
 app.listen(1337, () => {
   console.log('ON!');

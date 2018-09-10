@@ -5,16 +5,16 @@ var _dbConnect = function(connection, create) {
   return new Promise((resolve, reject) => {
     if(!!create) {
       request = new Request(
-        'INSERT INTO Nome (Nome) VALUES (@Nome);',
-        function(err, rowCount, rows) {
+        'SELECT * FROM Pedido',
+        function(err, rowCount) {
           if (err) {
             return reject(err);
           } else {
-            return resolve();
+            return resolve({linhas: rowCount});
           }
         });
       }
-        request.addParameter('Nome', TYPES.NVarChar, 'Renan Verissimo');
+
         connection.execSql(request);
   })
 }
@@ -22,8 +22,8 @@ var _dbConnect = function(connection, create) {
 var rotas = function(app, connection) {
   app.get('/ssms-criar', (req, res) => {
     _dbConnect(connection, true)
-      .then(() => {
-        res.send('Funfou!')
+      .then((resp) => {
+        res.json(resp);
       })
       .catch((err) => {
         res.send(err);
