@@ -5,7 +5,22 @@ var _dbConnect = function(connection, create) {
   return new Promise((resolve, reject) => {
     if(!!create) {
       request = new Request(
-        'SELECT * FROM Pedido',
+        `
+        SELECT TOP (10) ip.id, prod.nome
+        FROM ItemPedido as ip
+          inner join Produto as prod
+          on ip.idproduto = prod.id
+          inner join Pedido as p
+          on ip.idpedido = p.id
+        WHERE EXISTS (
+          SELECT *
+          FROM ItemPedido as ip
+          WHERE ip.idpedido = p.id AND ip.idproduto = '1'
+        )
+        AND ip.idproduto != '1'  
+        ORDER BY ip.id
+        OPTION (RECOMPILE)
+        `,
         function(err, rowCount) {
           if (err) {
             return reject(err);

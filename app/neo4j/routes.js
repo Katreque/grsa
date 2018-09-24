@@ -17,15 +17,21 @@ var rotas = function(app, driver) {
   app.get('/neo-listar', (req, res) => {
     const session = driver.session();
     let _arrayResultadoQuery = [];
+    let _countRetornoSelect = 0;
 
     session
-      .run('MATCH (a:Pessoa) WHERE a.nome = "Katreque" return a')
+      .run(`
+      MATCH (ip:itemPedido {idProduto: 1})-[:FAZ_PARTE]->(p:Pedido)<-[:FAZ_PARTE]-(prodRelacionado)-[:E]->(prod:Produto)
+      WHERE NOT ip.id = prodRelacionado.id
+      RETURN prodRelacionado.id as Recomendado, prod.id as NomeProduto
+      LIMIT 10
+      `)
       .subscribe({
         onNext: function(record) {
-          _arrayResultadoQuery.push(record.get('a'));
+          _countRetornoSelect++;
         },
         onCompleted: function() {
-          res.send(_arrayResultadoQuery)
+          res.json({linhas: _countRetornoSelect})
           session.close();
         },
         onError: function(err) {

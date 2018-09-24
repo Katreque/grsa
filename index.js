@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 //Neo4j requires
 const neo4j = require('neo4j-driver').v1;
-const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("katreque", "123456"));
+const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "123456"));
 
 //SQL Server requires
 const Connection = require('tedious').Connection;
