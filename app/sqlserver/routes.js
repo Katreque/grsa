@@ -6,7 +6,7 @@ var _dbConnect = function(connection, create) {
     if(!!create) {
       request = new Request(
         `
-        SELECT TOP (10) ip.id, prod.nome
+        SELECT TOP (11) ip.id, prod.nome
         FROM ItemPedido as ip
           inner join Produto as prod
           on ip.idproduto = prod.id

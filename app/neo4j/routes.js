@@ -24,7 +24,6 @@ var rotas = function(app, driver) {
       MATCH (ip:itemPedido {idProduto: 1})-[:FAZ_PARTE]->(p:Pedido)<-[:FAZ_PARTE]-(prodRelacionado)-[:E]->(prod:Produto)
       WHERE NOT ip.id = prodRelacionado.id
       RETURN prodRelacionado.id as Recomendado, prod.id as NomeProduto
-      LIMIT 10
       `)
       .subscribe({
         onNext: function(record) {
